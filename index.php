@@ -218,6 +218,7 @@ if($page == ''){
             </div>
         </div>
     </div>
+this is a test
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
