@@ -3,16 +3,6 @@ image: node:10.15.3
 pipelines:
   default:
     - step:
-        name: Build and test
-        caches:
-          - node
-        script:
-          - npm install 
-          - npm test
-          - npm run build
-        artifacts:
-          - build/**
-    - step:
         name: Deploy artifacts using SCP to PROD
         deployment: production
         script:
