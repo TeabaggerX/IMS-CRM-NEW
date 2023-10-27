@@ -70,7 +70,7 @@ switch ($_REQUEST['action']) {
             $offer_ids[]= $k->offer_id;
         }
 
-        $offers = everflowOffer::getWhereIN(['offer_id' => $offer_ids, 'category' => 'Newsletter'], 'ORDER BY offer_id DEC');
+        $offers = everflowOffer::getWhereIN(['offer_id' => $offer_ids, 'category' => 'Newsletter'], 'offer_id DESC');
         
         foreach ($offers as $k) {
             $offers = everflowCreative::getOneWhere(['offer_id' => $k->offer_id]);
