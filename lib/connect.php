@@ -191,8 +191,8 @@ class db {
             $_SESSION["loggedin"] = 'yes';
         } else {
             $_SESSION["loggedin"] = '';
-            return 'There was an error, Please try again if you can not login call one of the Jon\'s';
         }
+        return $user_info;
     }
     public function insert_sql($query){
         try{

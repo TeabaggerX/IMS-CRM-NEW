@@ -18,7 +18,7 @@ $catNumber = rand(1,5);
                                 <div class="text-center">
                                     <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
                                 </div>
-                                <form class="user" action="/index.php?page=app" method="post">
+                                <form class="user" action="/index.php?module=newsletter&page=app" method="post">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" id="userName" name="userName" aria-describedby="emailHelp" placeholder="Enter User Name">
                                     </div>

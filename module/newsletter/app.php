@@ -60,6 +60,7 @@
 </div>
 
 <script>
+    jQuery(document).ready(function() {
         jQuery('.loading_unpublish').hide();
         jQuery('.btn-unpublish').hide();
         jQuery('.loading_posts').hide();
@@ -85,10 +86,13 @@
 
             jQuery.post('/module/newsletter/ajax.php',{'action':'get_offers','id':affID,'temp_id':temp_id}).done(function (res) {
                 jQuery('.ad').html(res);
+                jQuery('.ad select').select2();
             });
 
             jQuery.post('/module/newsletter/ajax.php',{'action':'get_drafts','id':affID,'temp_id':temp_id}).done(function (res) {
                 jQuery('.article').html(res);
+                jQuery('.article select').select2();
+
             });
         });
         jQuery('.templateDropdown').select2();
@@ -102,4 +106,12 @@
             cleanup: false,
             valid_children : "+body[style]"
         });
+        jQuery(".btn-copy").click(function(e) {
+
+            e.preventDefault();
+            var copyText = jQuery('#html_ifr').contents().find('body').html();
+            navigator.clipboard.writeText(copyText);
+
+        });
+    });
 </script>
