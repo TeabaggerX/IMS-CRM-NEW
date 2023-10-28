@@ -189,6 +189,8 @@ class db {
         $user_info = $this->getOneWhere(['username' => $username], 'users');
         if(password_verify($password, $user_info['password'])){
             $_SESSION["loggedin"] = 'yes';
+            $_SESSION["USERNAME"] = $user_info['first_name'].' '.$user_info['last_name'];
+            $_SESSION["login_time_stamp"] = time();
         } else {
             $_SESSION["loggedin"] = '';
         }

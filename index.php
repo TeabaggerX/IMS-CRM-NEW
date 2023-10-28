@@ -76,8 +76,17 @@ if(isset($_POST['userName'])){
 // use this to make a password to save in DB
 // echo passw$ord_hash('JoySmith12', PASSWORD_BCRYPT);
 if($_SESSION["loggedin"] != 'yes'){
-    $page = 'login';
+    if($page != 'register'){
+        $page = 'login';
+    }
     $module = ''; 
+} else {
+    if(time()-$_SESSION["login_time_stamp"] > 600){
+        session_unset();
+        session_destroy();
+        $page = 'login';
+        $module = ''; 
+    }
 }
 
 if($page == ''){
@@ -165,7 +174,7 @@ if($page == ''){
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $login_user['first_name'].' '; echo $login_user['last_name']; ?></span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["USERNAME"]; ?></span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>

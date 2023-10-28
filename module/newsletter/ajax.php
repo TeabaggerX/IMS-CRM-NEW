@@ -122,7 +122,6 @@ switch ($_REQUEST['action']) {
 
         $the_from = $parsed_data;
 
-        file_put_contents(ROOT.'/debugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || ".print_r($the_from,true), 8);
         $aff_array = explode('|',$the_from['template']);
         $temp_id = $aff_array[0];
         $affiliate_id = $aff_array[1];

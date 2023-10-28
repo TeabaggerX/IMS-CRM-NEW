@@ -39,6 +39,9 @@ $catNumber = rand(1,5);
                                     <input type="hidden" name="login" value="yes">
                                 </form>
                                 <hr>
+                                <div class="text-center">
+                                    <a class="small" href="index.php?module=&page=register">Do not have an account? Register for one!</a>
+                                </div>
                             </div>
                         </div>
                     </div>
