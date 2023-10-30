@@ -10,10 +10,11 @@ pipelines:
           name: Deploy to Prod
           deployment: production
           script:
-            - pipe: atlassian/scp-deploy:1.4.1
-              variables:
-                USER: $USER
-                SERVER: $SERVER
-                REMOTE_PATH: '/home/dh_uey5n8/imscrm.com/'
-                LOCAL_PATH: '*'
+            - rsync -hvrPt . $USER@$SERVER:/home/dh_uey5n8/backup/
+            # - pipe: atlassian/scp-deploy:1.4.1
+              # variables:
+               #  USER: $USER
+               #  SERVER: $SERVER
+               #  REMOTE_PATH: '/home/dh_uey5n8/imscrm.com/'
+               #  LOCAL_PATH: '*'
                 # DEBUG: 'true'
