@@ -10,7 +10,7 @@ pipelines:
           name: Deploy to Prod
           deployment: production
           script:
-            - rsync -hvrPt . $USER@$SERVER:/home/dh_uey5n8/backup/
+            - rsync -hvrPt . $USER@$SERVER:/home/dh_uey5n8/backup/ --exculde='Google_Postmaster/' --exclude='.git/'
             # - pipe: atlassian/scp-deploy:1.4.1
               # variables:
                #  USER: $USER
