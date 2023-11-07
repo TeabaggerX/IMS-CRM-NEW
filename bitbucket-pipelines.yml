@@ -11,4 +11,6 @@ pipelines:
           deployment: production
           script:
             - DESTINATION_PATH="/home/dh_uey5n8/backup/"
-            - rsync -hrvPt . $USER@$SERVER:$DESTINATION_PATH --exclude='Google_Postmaster/' --exclude='.git/' --itemize-changes | grep -E '^[<f]' | awk '{print $2}'
+            - ssh-keygen -t rsa -b 4096 -f /opt/atlassian/pipelines/agent/ssh/id_rsa -N ""
+            - chmod 600 /opt/atlassian/pipelines/agent/ssh/id_rsa
+            - rsync -hrvPt -e "ssh -i /opt/atlassian/pipelines/agent/ssh/id_rsa" . $USER@$SERVER:$DESTINATION_PATH --exclude='Google_Postmaster/' --exclude='.git/' --itemize-changes | grep -E '^[<f]' | awk '{print $2}'
