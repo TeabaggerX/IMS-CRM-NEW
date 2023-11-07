@@ -26,6 +26,7 @@ class everflowAffiliate extends DBObjectBase {
         'affiliate_id_encoded' => ['type'      => 'varchar'],
         'name'    => ['type'      => 'varchar'],
         'accountStatus' => ['type'      => 'varchar'],
+        'global_tracking_domain_url' => ['type'      => 'varchar'],
         'timeStamp' => [ 'type' => 'timestamp' ],
     ];
 
