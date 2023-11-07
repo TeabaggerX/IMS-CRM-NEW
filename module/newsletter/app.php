@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <p><b>First select the email template you'd like to use, and then fill in each respective field. For articles, input the full article URL. For advertisements, insert the code snippet given by HasOffers. For Featured URL, insert the URL you want the Featured Text to link to. For Featured Text, Type the words you would like on Display at the top of your Featured Newsletter.</b></p>
+                <p><b>test First select the email template you'd like to use, and then fill in each respective field. For articles, input the full article URL. For advertisements, insert the code snippet given by HasOffers. For Featured URL, insert the URL you want the Featured Text to link to. For Featured Text, Type the words you would like on Display at the top of your Featured Newsletter.</b></p>
             </div>
         </div>
         <div class="row">
