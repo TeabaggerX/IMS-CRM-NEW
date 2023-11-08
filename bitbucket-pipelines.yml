@@ -11,4 +11,4 @@ pipelines:
           deployment: production
           script:
             - DESTINATION_PATH="/home/dh_uey5n8/imscrm.com/"
-            - rsync -hrvPt . $USER@$SERVER:$DESTINATION_PATH --exclude='Google_Postmaster/' --exclude='.git/' --itemize-changes | grep -E '^[<f]' | awk '{print $2}'
+            - rsync -hrtil . $USER@$SERVER:$DESTINATION_PATH --exclude='Google_Postmaster/' --exclude='.git/' | grep -E '^[<f]' | awk '{print $2}'
