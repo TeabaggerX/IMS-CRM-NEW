@@ -2,6 +2,8 @@
 file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Google API Start", 8);
 /*
 
+To run file by date range, ctrl+f "to run this code by date range" and follow instructions. Should need to uncomment 3 places...
+
 LAST REFRESH TOKEN DATE: 9/20/2023
 
 The refresh token (refresh_token) in this script needs to be manually refreshed every 6 months or so. To refresh it, follow this video: https://www.youtube.com/watch?v=t0RKgHskYwI
@@ -109,16 +111,38 @@ $today = new DateTime();
 $daysBefore = 2;
 $targetDate = $today->sub(new DateInterval("P{$daysBefore}D"));
 
-// Format the target date as 'YYYYMMDD'
-$targetDateString = $targetDate->format('Ymd');
-
+//Uncomment this next block to run this code by date range
 /*
-// Define an array of API endpoint URLs
-$apiEndpoints = [
-    'https://gmailpostmastertools.googleapis.com/v1/domains/thecheapinvestor.com/trafficStats/'.$targetDateString,
-    'https://gmailpostmastertools.googleapis.com/v1/domains/optionstradingreport.com/trafficStats/'.$targetDateString
-];
+// Define your start and end date in Ymd format
+$start_date = '20231020'; // Replace with your desired start date
+$end_date = '20231031';   // Replace with your desired end date
+
+// Convert the start and end dates to DateTime objects
+$start_datetime = DateTime::createFromFormat('Ymd', $start_date);
+$end_datetime = DateTime::createFromFormat('Ymd', $end_date);
+
+// Iterate through the date range
+$current_date = $start_datetime;
+while ($current_date <= $end_datetime) {
+    // Format the current date in Ymd format
+    $current_date_str = $current_date->format('Ymd');
+    
+    // Your API request code
+    // Replace the following line with your API request code
+    // makeApiRequest($current_date_str);
+
+    // Your SQL insert code
+    // Replace the following line with your SQL insert code
+    // insertIntoDatabase($current_date_str);
+
 */
+
+// Format the target date as 'YYYYMMDD'
+//$targetDateString = $targetDate->format('Ymd');
+$targetDateString = '20231107';
+//Uncomment this next line to run this code by date range
+//$targetDateString = $current_date_str;
+
 $baseURL = 'https://gmailpostmastertools.googleapis.com/v1/domains/';
 
 $domainNames = [
@@ -211,7 +235,18 @@ foreach ($apiEndpoints as $url) {
             $dkimSuccessRatio = $data->dkimSuccessRatio;
             $dmarcSuccessRatio = $data->dmarcSuccessRatio;
             $inboundEncryptionRatio = $data->inboundEncryptionRatio;
-            $mySQL->insert_sql("INSERT INTO google_postmaster (`Domain`, `userReportedSpamRatio`, `ipReputation`, `domainReputation`, `spfSuccessRatio`, `dkimSuccessRatio`, `dmarcSuccessRatio`, `inboundEncryptionRatio`, `statDate`) VALUES ('{$Domain}', '{$userReportedSpamRatio}', '{$ipReputation}', '{$domainReputation}', '{$spfSuccessRatio}', '{$dkimSuccessRatio}', '{$dmarcSuccessRatio}', '{$inboundEncryptionRatio}', '{$targetDateString}')");
+            $unique_id = $Domain.'|'.$targetDateString;
+            $mySQL->insert_sql("INSERT INTO google_postmaster (`Domain`, `userReportedSpamRatio`, `ipReputation`, `domainReputation`, `spfSuccessRatio`, `dkimSuccessRatio`, `dmarcSuccessRatio`, `inboundEncryptionRatio`, `statDate`, `unique_id`) 
+            VALUES ('{$Domain}', '{$userReportedSpamRatio}', '{$ipReputation}', '{$domainReputation}', '{$spfSuccessRatio}', '{$dkimSuccessRatio}', '{$dmarcSuccessRatio}', '{$inboundEncryptionRatio}', '{$targetDateString}', '{$unique_id}')
+            ON DUPLICATE KEY UPDATE
+                `userReportedSpamRatio` = '{$userReportedSpamRatio}',
+                `ipReputation` = '{$ipReputation}',
+                `domainReputation` = '{$domainReputation}',
+                `spfSuccessRatio` = '{$spfSuccessRatio}',
+                `dkimSuccessRatio` = '{$dkimSuccessRatio}',
+                `dmarcSuccessRatio` = '{$dmarcSuccessRatio}',
+                `inboundEncryptionRatio` = '{$inboundEncryptionRatio}'
+            ");
 
         } else {
             echo "Error decoding JSON response";
@@ -221,6 +256,14 @@ foreach ($apiEndpoints as $url) {
         curl_reset($ch);
     }
 }
+
+//Uncomment this block to run this code by date range
+/*
+// Comment out the loop when you don't want to execute it
+    // Increment the current date by one day
+    $current_date->modify('+1 day');
+}
+*/
 
 // Close the cURL session
 curl_close($ch);
