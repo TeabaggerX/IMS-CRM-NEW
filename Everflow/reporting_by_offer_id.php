@@ -58,6 +58,9 @@ foreach ($categoryIds as $categoryId) {
 $startDate = new DateTime('2023-10-20');
 //make your end date one day more than it needs to be
 $endDate = new DateTime('2023-11-01');
+$startDate = new DateTime('2023-10-20');
+//make your end date one day more than it needs to be
+$endDate = new DateTime('2023-11-01');
 //$endDate = new DateTime('2023-10-02');
 $interval = new DateInterval('P1D'); // 1 day interval
 $dateRange = new DatePeriod($startDate, $interval, $endDate);
@@ -75,6 +78,8 @@ $data = []; //Reset the data array
     
 // Prepare the payload data
 $data = [
+    'from' => '2023-11-01',
+    'to' => '2023-11-01',    
     'from' => '2023-11-01',
     'to' => '2023-11-01',    
     //'from' => $today,
@@ -230,7 +235,7 @@ if (isset($data['table']) && is_array($data['table'])) {
 
         $alternate_id = $categoryID . $date_for_alternate_id . $offer_id . $creative_id . $offer_url_id . $affiliate_id;
 
-        
+        /*
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Date: $date <-----------------STARTS HERE", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || dateRangeDate: $dateRangeDate", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || category: $category", 8);
@@ -244,6 +249,7 @@ if (isset($data['table']) && is_array($data['table'])) {
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || affiliate_id: $affiliate_id", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || alternate_id: $alternate_id", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Reporting: ".print_r($reporting,true), 8);
+        */
 
         //New SQL Insert Statement
         //Pull in data to see if there is a match on alternate id

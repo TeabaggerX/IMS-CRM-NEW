@@ -1,6 +1,7 @@
 <?php
-include '../lib/autoloader.php';
-include '../Everflow/functions.php';
+
+include '/home/dh_uey5n8/imscrm.com/lib/autoloader.php';
+include '/home/dh_uey5n8/imscrm.com/Everflow/functions.php';
 
 $template = templates::getWhere(['url' => '', 'del' => 0, 'affiliate_active' => 1]);
 $i=0;
@@ -14,6 +15,7 @@ foreach ($template as $temp) {
         foreach ($response as $key => $value) {
             // file_put_contents(ROOT.'/debugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || ".print_r($value,true), 8);
             $i++;
+            $url_index='';
             file_put_contents(ROOT.'/debugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || $i)", 8);
             if($temp->affiliate_id != 1271){
                 $url_date = '/'.date('Y/m/d', strtotime($value['post_date']));
@@ -30,7 +32,7 @@ foreach ($template as $temp) {
             
             $template = drafts::getOneWhere(['post_id' => $value['ID']]);
 
-            if($template->id == ''){
+            if(empty($template->id)){
                 $template = new drafts();
             }
             $template->url = $link_date;
