@@ -58,6 +58,9 @@ foreach ($categoryIds as $categoryId) {
 $startDate = new DateTime('2023-10-20');
 //make your end date one day more than it needs to be
 $endDate = new DateTime('2023-11-01');
+$startDate = new DateTime('2023-10-20');
+//make your end date one day more than it needs to be
+$endDate = new DateTime('2023-11-01');
 //$endDate = new DateTime('2023-10-02');
 $interval = new DateInterval('P1D'); // 1 day interval
 $dateRange = new DatePeriod($startDate, $interval, $endDate);
@@ -75,6 +78,8 @@ $data = []; //Reset the data array
     
 // Prepare the payload data
 $data = [
+    'from' => '2023-11-01',
+    'to' => '2023-11-01',    
     'from' => '2023-11-01',
     'to' => '2023-11-01',    
     //'from' => $today,

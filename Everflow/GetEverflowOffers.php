@@ -115,7 +115,7 @@ foreach ($allData as $offer) {
 
     $the_offer = everflowOffer::getOneWhere(['offer_id' => $offer['network_offer_id']]);
 
-    if($the_offer->id == ''){
+    if(empty($the_offer->id)){
         $the_offer = new everflowOffer();
     }
 

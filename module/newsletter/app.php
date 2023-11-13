@@ -3,7 +3,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col">
-                <p><b>First select the email template you'd like to use, and then fill in each respective field. For articles, input the full article URL. For advertisements, insert the code snippet given by HasOffers. For Featured URL, insert the URL you want the Featured Text to link to. For Featured Text, Type the words you would like on Display at the top of your Featured Newsletter.</b></p>
+                <!-- <p><b>Newsletter.</b></p> -->
             </div>
         </div>
         <div class="row">
@@ -60,6 +60,7 @@
 </div>
 
 <script>
+    jQuery(document).ready(function() {
         jQuery('.loading_unpublish').hide();
         jQuery('.btn-unpublish').hide();
         jQuery('.loading_posts').hide();
@@ -82,13 +83,17 @@
             var affID = result[1];
             var affEncodedID = result[2];
             jQuery('#affiliate_id_encoded').val(affEncodedID);
+            // alert('affID '+affID+' | temp_id '+temp_id);
 
             jQuery.post('/module/newsletter/ajax.php',{'action':'get_offers','id':affID,'temp_id':temp_id}).done(function (res) {
                 jQuery('.ad').html(res);
+                jQuery('.ad select').select2();
             });
 
             jQuery.post('/module/newsletter/ajax.php',{'action':'get_drafts','id':affID,'temp_id':temp_id}).done(function (res) {
                 jQuery('.article').html(res);
+                jQuery('.article select').select2();
+
             });
         });
         jQuery('.templateDropdown').select2();
@@ -102,4 +107,12 @@
             cleanup: false,
             valid_children : "+body[style]"
         });
+        jQuery(".btn-copy").click(function(e) {
+
+            e.preventDefault();
+            var copyText = jQuery('#html_ifr').contents().find('body').html();
+            navigator.clipboard.writeText(copyText);
+
+        });
+    });
 </script>

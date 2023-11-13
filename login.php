@@ -1,6 +1,13 @@
 <?php 
 $_SESSION["loggedin"] = ''; 
 $catNumber = rand(1,5);
+
+if($_GET['module'] != '' && $_GET['page'] != ''){
+    $URI = $_SERVER['REQUEST_URI'];
+} else {
+    $URI = "/index.php?module=newsletter&page=app";
+}
+
 ?>
 <div class="container">
     <!-- Outer Row -->
@@ -16,9 +23,12 @@ $catNumber = rand(1,5);
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center">
-                                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                                 <img id="logo" src="img/logo_top.png">
                                 </div>
-                                <form class="user" action="/index.php?page=app" method="post">
+                                <div class="text-center">
+                                    <h1 class="h4 text-gray-900 mb-4"></h1>
+                                </div>
+                                <form class="user" action="<?=$URI?>" method="post">
                                     <div class="form-group">
                                         <input type="text" class="form-control form-control-user" id="userName" name="userName" aria-describedby="emailHelp" placeholder="Enter User Name">
                                     </div>

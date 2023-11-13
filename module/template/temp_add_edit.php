@@ -159,12 +159,16 @@
     });
     tinymce.init({
         selector: 'textarea#editor',
-        plugins: 'a11ychecker advcode advlist lists image media anchor link autoresize code',
+        plugins: 'fullpage advlist lists image media anchor link autoresize code',
         toolbar: 'a11ycheck | blocks bold forecolor backcolor | bullist numlist | link image media anchor | alignleft aligncenter alignright alignjustify | code',
         menubar: 'happy',
-        verify_html:false,
-        cleanup: false,
-        valid_children : "+body[style]"
+        entity_encoding: "raw",
+        valid_elements          : '*[*]',
+        valid_children          : "+html,+head,+body",
+        extended_valid_elements : "html[*],head,body,script[*],style[*],link[*]",
+        custom_elements         : "html,head,body,script,style,link",
+        apply_source_formatting : false,                //added option
+        verify_html : false,     
     });
     // jQuery('#editortxt').val()
 </script>

@@ -30,8 +30,8 @@ include 'lib/autoloader.php';
     <link href="css/sb-admin-2.css?v=3" rel="stylesheet">
     <link href="css/alertify.css?v=3" rel="stylesheet">
     <link href="css/themes/default.min.css" rel="stylesheet" />
-    <link href="js/select2-develop/dist/css/select2.min.css?v=4" rel="stylesheet" />
-    <script src="js/select2-develop/dist/js/select2.min.js?v=4"></script>
+    <link href="js/select2-develop/dist/css/select2.css?v=10" rel="stylesheet" />
+    <script src="js/select2-develop/dist/js/select2.min.js?v=5"></script>
     <script src="js/tinymce/tinymce.min.js"></script>
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> 
     <script src="vendor/datatables/jquery.dataTables.min.js"></script>
@@ -45,7 +45,9 @@ include 'lib/autoloader.php';
 <?php
 
 $module = $_GET['module'];
-if($module != ''){ $module = 'module/'.$module.'/'; }
+if($module != ''){ 
+    $module = 'module/'.$module.'/'; 
+}
 $page = $_GET['page'];
 
 $showMsg = '';
@@ -63,10 +65,10 @@ if(isset($_POST['userName'])){
         $username = trim($_REQUEST['userName']);
         $password = trim($_REQUEST['password']);
 
-        $error = $db->checkLogin($username, $password);
-        if($error != ''){
-            file_put_contents('debugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__.' error '.$error, 8);
-            $showMsg = $error;
+        $login_user = $db->checkLogin($username, $password);
+        if(empty($login_user)){
+            file_put_contents('debugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__.' error UN:'.$username.' PW: '.$password, 8);
+            $showMsg = 'There was an error, Please try again if you can not login call one of the Jon\'s';
         }
 
     }
@@ -74,47 +76,34 @@ if(isset($_POST['userName'])){
 // use this to make a password to save in DB
 // echo passw$ord_hash('JoySmith12', PASSWORD_BCRYPT);
 if($_SESSION["loggedin"] != 'yes'){
-    $page = 'login';
+    if($page != 'register'){
+        $page = 'login';
+    }
+    $module = ''; 
+} else {
+    if(time()-$_SESSION["login_time_stamp"] > 300){
+        session_unset();
+        session_destroy();
+        $page = 'login';
+        $module = ''; 
+    } else {
+        $_SESSION["login_time_stamp"] = time();
+    }
 }
 
 if($page == ''){
     $page = 'login';
+    $module = ''; 
 }
 ?>
     <!-- Page Wrapper --> 
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php?page=home">
-                <img id="logo" src="img/logo_top_w.png">
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=template&page=temp"><i class="fas fa-fw fa-clipboard"></i><span>Templates</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=newsletter&page=app"><i class="fas fa-fw fa-newspaper"></i><span>Newsletter</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=insertion_order_app&page=app"><i class="fas fa-fw fa-list"></i><span>Insertion Order App</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=push&page=home"><i class="fas fa-fw fa-newspaper"></i><span>push</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-
-        </ul>
-        <!-- End of Sidebar -->
+        <?php 
+        if($page != "login"){
+            include "side_menu.php";
+        }
+        ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -157,9 +146,27 @@ if($page == ''){
                             </div>
                         </li>
 
-
+                        <!-- Nav Item - User Information -->
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><?php echo $_SESSION["USERNAME"]; ?></span>
+                                <img class="img-profile rounded-circle"
+                                    src="img/undraw_profile.svg">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                                aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Logout
+                                </a>
+                            </div>
+                        </li>
 
                     </ul>
+
+
 
                 </nav>
                 <!-- End of Topbar -->
@@ -213,15 +220,13 @@ if($page == ''){
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
+                    <a class="btn btn-primary" href="index.php?module=">Logout</a>
                 </div>
             </div>
         </div>
     </div>
-this is a test
 
     <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
     <!-- Core plugin JavaScript-->

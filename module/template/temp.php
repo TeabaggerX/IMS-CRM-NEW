@@ -61,8 +61,21 @@
         </div>
     </div>
 </div>
+<input id="backbuttonstate" type="text" value="0" style="display:none;" />
 <script>
-let table = new DataTable('#dataTable');
+document.addEventListener('DOMContentLoaded', function () {
+    var ibackbutton = document.getElementById("backbuttonstate");
+    setTimeout(function () {
+        if (ibackbutton.value == "0") {
+            ibackbutton.value = "1";
+        } else {
+            jQuery(".custom-select").val(10);
+        }
+    }, 200);
+}, false);
+
+
+// let table = new DataTable('#dataTable');
     
     jQuery('.deleteFlag').click(function(){  
         var id = jQuery(this).attr('data');
