@@ -48,3 +48,5 @@ Thumbs.db
 *.mov
 *.wmv
 
+sftp-config.json
+.vscode/sftp.json
