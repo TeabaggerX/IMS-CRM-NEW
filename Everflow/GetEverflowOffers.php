@@ -1,5 +1,5 @@
 <?php
-
+file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Everflow Offer Start", 8);
 include("/home/dh_uey5n8/imscrm.com/lib/connect.php");
 include '/home/dh_uey5n8/imscrm.com/lib/autoloader.php';
 include '/home/dh_uey5n8/imscrm.com/Everflow/functions.php';
@@ -91,7 +91,13 @@ foreach ($allData as $offer) {
         ]
     ]);
     $offers = eflowAPI('networks/offers/'.$offer['network_offer_id'], 'get', $payload);
-    $channel_id = $offers['relationship']['channels']['entries'][0]['network_channel_id'];
+    
+//file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Offer: ".print_r($offers,true), 8);
+
+    //$channel_id = $offers['relationship']['channels']['entries'][0]['network_channel_id'];
+    $channel_id = $offers['relationship']['channels']['entries'][0]['network_channel_id'] ?? null;
+
+//file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || channel_id: $channel_id ", 8);
 
     $network_offer_id  = $offer['network_offer_id'];
     $network_offer_id_array .= $offer['network_offer_id'].',';
@@ -109,7 +115,7 @@ foreach ($allData as $offer) {
 
     $the_offer = everflowOffer::getOneWhere(['offer_id' => $offer['network_offer_id']]);
 
-    if($the_offer->id == ''){
+    if(empty($the_offer->id)){
         $the_offer = new everflowOffer();
     }
 
@@ -124,6 +130,7 @@ foreach ($allData as $offer) {
     $the_offer->channel_id = $channel_id;
     $the_offer->payout_type = $offer['payout_type'];
     $the_offer->revenue_type = $offer['revenue_type'];
+    $the_offer->offer_id_encoded = 0;
     $the_offer->del = $del;
     $the_offer->save();
     
@@ -179,4 +186,5 @@ foreach ($allData as $offer) {
         }
         $theOffer->save();
     }
+file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Everflow Offer End", 8);
 ?>

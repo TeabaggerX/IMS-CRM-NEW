@@ -94,6 +94,7 @@ foreach ($allData as $affiliate) {
     $affiliate_id = $affiliate['network_affiliate_id'];
     $name = addslashes($affiliate['name']); // Manually escape the name
     $accountStatus = $affiliate['account_status'];
+    $global_tracking_domain_url = $affiliate['global_tracking_domain_url'];
     $affiliate_ids .= $affiliate_id.',';
 
     /*$mySQL->insert_sql("INSERT INTO everflowAffiliate (`AffiliateID`, `Name`, `AccountStatus`) VALUES ('{$AffiliateID}', '{$Name}', '{$AccountStatus}')");*/
@@ -102,15 +103,18 @@ foreach ($allData as $affiliate) {
             `affiliate_id`,
             `name`,
             `accountStatus`,
+            `global_tracking_domain_url`,
             `del`
         ) VALUES (
             '{$affiliate_id}',
             '{$name}',
             '{$accountStatus}',
+            '{$global_tracking_domain_url}',
             '{$del}'
         ) ON DUPLICATE KEY UPDATE
             `name` = '{$name}',
             `accountStatus` = '{$accountStatus}',
+            `global_tracking_domain_url` = '{$global_tracking_domain_url}',
             `del` = '{$del}'
     ");
     

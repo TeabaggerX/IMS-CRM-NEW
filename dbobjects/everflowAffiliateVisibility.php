@@ -17,7 +17,7 @@ class everflowAffiliateVisibility extends DBObjectBase {
     protected static $table = 'everflowAffiliateVisibility';
     /**
      * Primary human readable title field for the object
-     *
+     *pc chair
      * @var string
      */
     protected static $dbFields = [

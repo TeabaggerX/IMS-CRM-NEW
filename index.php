@@ -30,7 +30,7 @@ include 'lib/autoloader.php';
     <link href="css/sb-admin-2.css?v=3" rel="stylesheet">
     <link href="css/alertify.css?v=3" rel="stylesheet">
     <link href="css/themes/default.min.css" rel="stylesheet" />
-    <link href="js/select2-develop/dist/css/select2.css?v=9" rel="stylesheet" />
+    <link href="js/select2-develop/dist/css/select2.css?v=10" rel="stylesheet" />
     <script src="js/select2-develop/dist/js/select2.min.js?v=5"></script>
     <script src="js/tinymce/tinymce.min.js"></script>
     <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet"> 
@@ -81,11 +81,13 @@ if($_SESSION["loggedin"] != 'yes'){
     }
     $module = ''; 
 } else {
-    if(time()-$_SESSION["login_time_stamp"] > 600){
+    if(time()-$_SESSION["login_time_stamp"] > 300){
         session_unset();
         session_destroy();
         $page = 'login';
         $module = ''; 
+    } else {
+        $_SESSION["login_time_stamp"] = time();
     }
 }
 
@@ -97,37 +99,11 @@ if($page == ''){
     <!-- Page Wrapper --> 
     <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
-
-            <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.php?page=home">
-                <img id="logo" src="img/logo_top_w.png">
-            </a>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=template&page=temp"><i class="fas fa-fw fa-clipboard"></i><span>Templates</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=newsletter&page=app"><i class="fas fa-fw fa-newspaper"></i><span>Newsletter</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=insertion_order_app&page=app"><i class="fas fa-fw fa-list"></i><span>Insertion Order App</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="index.php?module=push&page=home"><i class="fas fa-fw fa-newspaper"></i><span>push</span></a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-
-        </ul>
-        <!-- End of Sidebar -->
+        <?php 
+        if($page != "login"){
+            include "side_menu.php";
+        }
+        ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -136,7 +112,7 @@ if($page == ''){
             <div id="content">
 
                 <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">p
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
                     <!-- Sidebar Toggle (Topbar) -->
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
