@@ -61,7 +61,7 @@ $apiUrl = 'https://oauth2.googleapis.com/token';
 $postData = array(
     'client_id' => '456106292397-h48o8b1mksukloojco9j0bh8ofson7g4.apps.googleusercontent.com',
     'client_secret' => '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',
-    'refresh_token' => '1//06821z6481swGCgYIARAAGAYSNwF-L9Ir2h0rERev-peakw9Ab3T4lMnGm850Z_8swyBEaF-nfllCKqPJ6QtzcUXIXsOopLYEuYk', //GOOD FOR 6 MONTHS ONLY. LAST REFRESH DATE 9/20/2023
+    'refresh_token' => '1//06821z6481swGCgYIARAAGAYSNwF-L9Ir2h0rERev-peakw9Ab3T4lMnGm850Z_8swyBEaF-nfllCKqPJ6QtzcUXIXsOopLYEuYk', //GOOD FOR 6 MONTHS ONLY. LAST REFRESH DATE 9/20/2023. SHOULD FAIL AROUND 3/20/2024
     'grant_type' => 'refresh_token'
 );
 
@@ -112,11 +112,46 @@ $targetDate = $today->sub(new DateInterval("P{$daysBefore}D"));
 // Format the target date as 'YYYYMMDD'
 $targetDateString = $targetDate->format('Ymd');
 
+/*
 // Define an array of API endpoint URLs
 $apiEndpoints = [
     'https://gmailpostmastertools.googleapis.com/v1/domains/thecheapinvestor.com/trafficStats/'.$targetDateString,
     'https://gmailpostmastertools.googleapis.com/v1/domains/optionstradingreport.com/trafficStats/'.$targetDateString
 ];
+*/
+$baseURL = 'https://gmailpostmastertools.googleapis.com/v1/domains/';
+
+$domainNames = [
+    'thecheapinvestor.com',
+    'activetradernews.com',
+    'optionstradingreport.com',
+    'topstockreports.com',
+    'tradersdaily.com',
+    'tradingreportsdaily.com',
+    'dailygoldalerts.com',
+    'protradingresearch.com',
+    'activetraderdaily.com',
+    'investingwealthdaily.com',
+    'weeklyinvestoralerts.com',
+    'tradingstocksnow.com',
+    'tradingcheatsheet.com',
+    'marketspectator.com',
+    'wealthyinvestorreport.com',
+    'em.dailygoldalerts.com',
+    'e.investingwealthdaily.com',
+    'em.activetraderdaily.com',
+    'e.tradingstocksnow.com',
+    'em.protradingresearch.com'
+];
+
+$apiEndpoints = [];
+
+foreach ($domainNames as $domain) {
+    $apiEndpoints[] = $baseURL . $domain . '/trafficStats/' . $targetDateString;
+}
+
+// Now, $apiEndpoints contains all the URLs for the given domain names with the specified target date.
+
 
 // Initialize cURL session
 $ch = curl_init();
