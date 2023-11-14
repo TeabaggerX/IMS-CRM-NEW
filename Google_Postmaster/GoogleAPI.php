@@ -114,8 +114,8 @@ $targetDate = $today->sub(new DateInterval("P{$daysBefore}D"));
 //Uncomment this next block to run this code by date range
 /*
 // Define your start and end date in Ymd format
-$start_date = '20231020'; // Replace with your desired start date
-$end_date = '20231031';   // Replace with your desired end date
+$start_date = '20231107'; // Replace with your desired start date
+$end_date = '20231112';   // Replace with your desired end date
 
 // Convert the start and end dates to DateTime objects
 $start_datetime = DateTime::createFromFormat('Ymd', $start_date);
@@ -134,12 +134,12 @@ while ($current_date <= $end_datetime) {
     // Your SQL insert code
     // Replace the following line with your SQL insert code
     // insertIntoDatabase($current_date_str);
-
 */
 
+
 // Format the target date as 'YYYYMMDD'
-//$targetDateString = $targetDate->format('Ymd');
-$targetDateString = '20231107';
+$targetDateString = $targetDate->format('Ymd');
+//$targetDateString = '20231107';
 //Uncomment this next line to run this code by date range
 //$targetDateString = $current_date_str;
 
