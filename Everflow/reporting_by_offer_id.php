@@ -17,6 +17,9 @@ $yesterday = date('Y-m-d', strtotime('yesterday'));
 //Todays Date
 $today = date('Y-m-d');
 
+// Yesterday's Date
+$yesterday = date('Y-m-d', strtotime('-1 day', strtotime($today)));
+
 //New SQL Query format...
 //Ignoring offer ID 46 because that is the fail traffic offer and it causes issues
 $var = everflowOffer::getAllWhere("offer_id", "!=", "46", "offer_id ASC",);
@@ -56,8 +59,7 @@ foreach ($categoryIds as $categoryId) {
 /*
 $startDate = new DateTime('2023-11-01');
 //make your end date one day more than it needs to be
-$endDate = new DateTime('2023-11-15');
-//$endDate = new DateTime('2023-10-02');
+$endDate = new DateTime('2023-11-17');
 $interval = new DateInterval('P1D'); // 1 day interval
 $dateRange = new DatePeriod($startDate, $interval, $endDate);
 
@@ -75,10 +77,8 @@ $data = []; //Reset the data array
 // Prepare the payload data
 $data = [
     //'from' => '2023-11-01',
-    //'to' => '2023-11-01',    
-    //'from' => '2023-11-01',
-    //'to' => '2023-11-01',    
-    'from' => $today,
+    //'to' => '2023-11-01',
+    'from' => $yesterday,
     'to' => $today,
     //'from' => $dateRangeDate,
     //'to' => $dateRangeDate,
@@ -233,7 +233,8 @@ if (isset($data['table']) && is_array($data['table'])) {
 
         /*
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Date: $date <-----------------STARTS HERE", 8);
-        file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || dateRangeDate: $dateRangeDate", 8);
+        //file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || dateRangeDate: $dateRangeDate", 8);
+        file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || rowCount: $rowCount", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || category: $category", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || categoryID: $categoryID", 8);
         file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || creative: $creative", 8);
