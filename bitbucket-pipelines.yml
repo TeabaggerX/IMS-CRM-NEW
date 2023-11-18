@@ -1,5 +1,5 @@
 options:
-  max-time: 2  # time in minutes
+  max-time: 3 # time in minutes
 
 image: eeacms/rsync
 
@@ -9,10 +9,6 @@ pipelines:
       # step:
         # add steps here to deploy to staging server if you want, otherwise just only run on merge to master
     master:
-      - step:
-          name: Timeout Test
-          script:
-            - sleep 200  # Sleep for longer than 2 minutes
       - step:
           name: Deploy to Prod
           deployment: production
