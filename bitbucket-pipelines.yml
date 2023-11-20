@@ -1,3 +1,6 @@
+options:
+  max-time: 3 # time in minutes
+
 image: eeacms/rsync
 
 pipelines:
