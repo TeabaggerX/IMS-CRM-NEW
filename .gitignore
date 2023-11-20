@@ -50,3 +50,5 @@ Thumbs.db
 
 sftp-config.json
 .vscode/sftp.json
+.gitignore
+.vscode/sftp.json

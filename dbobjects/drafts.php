@@ -29,6 +29,8 @@ class drafts extends DBObjectBase {
         'affiliate_id'    => ['type' => 'int'],
         'url' => ['type' => 'varchar'],
         'html' => ['type' => 'text'],
+        'del' => ['type' => 'int'],
+        'timestamp' => [],
     ];
 
 }

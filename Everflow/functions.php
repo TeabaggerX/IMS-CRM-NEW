@@ -1,6 +1,6 @@
 <?php
 
-function eflowAPI($baseURL, $postType, $payload){
+function eflowAPI($baseURL, $postType, $payload = ''){
     // Request headers
     $headers = array(
         "X-Eflow-API-Key: c9ce04CoQieR8hAg3tyDPw",
@@ -13,7 +13,7 @@ function eflowAPI($baseURL, $postType, $payload){
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true); // Return the response as a string
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers); // Set request headers
     if($postType == 'post'){
-        curl_setopt($ch, $postType, 1); // Set as a POST request
+        curl_setopt($ch, CURLOPT_POST, 1); // Set as a POST request
         curl_setopt($ch, CURLOPT_POSTFIELDS, $payload); // Add the payload
     }
 
@@ -58,4 +58,11 @@ function wordpressAPI($baseURL, $api){
     curl_close($curl);
 
     return json_decode($response, true);
+}
+
+function clean_title($title){
+    $title = strtolower(trim($title));
+    $title = str_replace(' ', '-', $title);
+    $title = preg_replace('/[^a-z0-9\-]/', '', $title);
+    return $title;
 }
