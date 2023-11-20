@@ -3,12 +3,16 @@ file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H
 include("/home/dh_uey5n8/imscrm.com/lib/connect.php");
 include '/home/dh_uey5n8/imscrm.com/lib/autoloader.php';
 include '/home/dh_uey5n8/imscrm.com/Everflow/functions.php';
-
+/*
 $mySQL = new db();
 
 $mySQL->insert_sql("UPDATE everflowOffer SET `del` = 1");
 
 $mySQL = new db();
+*/
+
+$query = everflowOffer::startQuery()->where("id", ">", 0);
+everflowOffer::updateWithConditions($query, array("del" => 1));
 
 $del = 0;
 
@@ -34,9 +38,6 @@ $payload = json_encode([
         "offer_status" => "active"
     ]
 ]);
-
-//init sql connection
-$mySQL = new db();
 
 // Continue making requests until all data is retrieved
 do {
@@ -186,5 +187,9 @@ foreach ($allData as $offer) {
         }
         $theOffer->save();
     }
+
+    $query = everflowOffer::startQuery()->where("del", "=", 1);
+    everflowOffer::deleteWithConditions($query, array("del" => 1));
+
 file_put_contents('/home/dh_uey5n8/imscrm.com/jonnydebugfile.txt', "\n(".date('H:i:s').") ". basename(__FILE__).':'.__LINE__." || Everflow Offer End", 8);
 ?>
