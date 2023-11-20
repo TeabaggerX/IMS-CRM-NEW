@@ -22,11 +22,12 @@ class everflowChannel extends DBObjectBase {
      */
     protected static $dbFields = [
         'id' => ['private' => true],
-        'timestamp' => [ 'type' => 'timestamp' ],
         'network_channel_id' => [ 'type' => 'int' ],
         'network_id'    => ['type' => 'int'],
         'name' => ['type'      => 'varchar'],
-        'status' => [ 'type' => 'varchar' ]
+        'status' => [ 'type' => 'varchar' ],
+        'del' => [ 'type' => 'int' ],
+        'timestamp' => [ 'type' => '' ]
     ];
 
 }
