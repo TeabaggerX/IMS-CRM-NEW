@@ -81,7 +81,7 @@ if($_SESSION["loggedin"] != 'yes'){
     }
     $module = ''; 
 } else {
-    if(time()-$_SESSION["login_time_stamp"] > 300){
+    if(time()-$_SESSION["login_time_stamp"] > 1800){
         session_unset();
         session_destroy();
         $page = 'login';
