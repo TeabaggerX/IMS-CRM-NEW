@@ -61,6 +61,7 @@ abstract class DBObjectBase implements \JsonSerializable {
     public           $associatedObjects = [];
     protected        $__properties = array();
     protected        $initialized  = false;
+    protected        $isUpdating  = []; // this was added to not resave everything
     private          $journalObj;
 
     protected static $queryfields;
@@ -77,6 +78,7 @@ abstract class DBObjectBase implements \JsonSerializable {
         if (static::$dbFields === array()) {
             throw new \DBObjects\DBObjectException("dbFields have to be set");
         }
+        $this->isUpdating = []; // this was added to not resave everything
 
         /// Decode Values
         $this->decode();
@@ -426,7 +428,10 @@ abstract class DBObjectBase implements \JsonSerializable {
                 }
                 if ($this->{$keyName} === null) {
                     if (!isset($attr['default'])) {
-                        $params[$keyName] = null;
+                        // this was added to not resave everything
+                        if(($insert) && !isset($this->{static::$primaryKey}) && empty($this->{static::$primaryKey})) {
+                            $params[$keyName] = null;
+                        }
                     } elseif ($attr['default'] === 'timestamp') {
                         $params[$keyName] = ['NOW()', ''];
                     } elseif ($attr['default'] === 'date') {
@@ -435,9 +440,16 @@ abstract class DBObjectBase implements \JsonSerializable {
                         $params[$keyName] = $attr['default'];
                     }
                 } else {
-                    // Encode
-                    $params[$keyName] = $this->{$keyName};
-                    $params[$keyName] = $this->transcode($keyName, $params[$keyName], 'in');
+                    // this was added to not resave everything
+                    if(!($insert) && isset($this->{static::$primaryKey}) && !empty($this->{static::$primaryKey})){
+                        if(in_array($keyName, $this->isUpdating)){
+                            $params[$keyName] = $this->{$keyName};
+                            $params[$keyName] = $this->transcode($keyName, $params[$keyName], 'in');
+                        }
+                    } else {
+                        $params[$keyName] = $this->{$keyName}; // this is the old code
+                        $params[$keyName] = $this->transcode($keyName, $params[$keyName], 'in');// this is the old code
+                    }
 
                     // if ($this->journalObj instanceof \DBObjects\DBOJournal) {
                     //     $this->journalObj->stateData[$keyName]['new'] = $params[$keyName];
@@ -577,11 +589,13 @@ abstract class DBObjectBase implements \JsonSerializable {
         if (substr($name, 0, 8) == '__objcf_') {
             $fieldid = (int) str_replace('__objcf_', '', $name);
             if (array_key_exists($fieldid, $this->customFields)) {
+                $this->isUpdating[] = $name;// this was added to not resave everything
                 $this->toSaveCF[$fieldid] = $value;
             }
         } else {
 
             if ($this->initialized) {
+                $this->isUpdating[] = $name;// this was added to not resave everything
                 $this->__properties[$name] = $this->sanitize($name, $value);
             } else {
                 $this->__properties[$name] = $value;
