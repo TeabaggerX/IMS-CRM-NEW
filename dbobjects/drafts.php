@@ -26,6 +26,7 @@ class drafts extends DBObjectBase {
         'title'    => ['type' => 'varchar'],
         'post_name'    => ['type' => 'varchar'],
         'post_id'    => ['type' => 'int'],
+        'post_status'    => ['type' => 'varchar'],
         'affiliate_id'    => ['type' => 'int'],
         'url' => ['type' => 'varchar'],
         'html' => ['type' => 'text'],
